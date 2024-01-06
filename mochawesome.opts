@@ -1,0 +1,5 @@
+{
+  "reportDir": "cypress/reports",
+  "reportFilename": "smoke-report",
+  "reportTitle": "Smoke Test Report"
+}
