@@ -1,0 +1,33 @@
+name: Smoke Test Suite
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  smoke-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 1  # Shallow clone to reduce git history
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '14'
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Run Cypress Smoke Tests
+        run: npm run cypress:smoke
+
+      - name: Merge Mochawesome Reports
+        run: npx mochawesome-merge cypress/reports/*.json > merged-report.json
+
+      - name: Generate Mochawesome HTML Report
+        run: npx mochawesome-report-generator merged-report.json
